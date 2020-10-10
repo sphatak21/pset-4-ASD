@@ -28,17 +28,17 @@ public class SimpleQueue {
     public void clear(){
         mainArray = new String[cap];
         tail = -1;
+        size = size();
     }
 
     public boolean contains(String s){
-        for(int i = 0; i < tail + 1; i++){
+        for(int i = 0; i < size; i++){
             if(mainArray[i] == s){
                 return true;
             }
         }
         return false;
     }
-
     public String element() {
         String result = peek();
         if(result == null){
@@ -48,13 +48,14 @@ public class SimpleQueue {
         }
     }
     public boolean offer(String s) {
-        if(tail + 1 == mainArray.length){
+        if(size == mainArray.length){
             return false;
         }else if (s == null){
             throw new NullPointerException();
         }else{
-            mainArray[tail + 1] = s;
+            mainArray[size] = s;
             tail++;
+            size = size();
             return true;
         }
     }
@@ -70,10 +71,11 @@ public class SimpleQueue {
             return null;
         }
         String returnString = peek();
-        for(int i = 1; i < tail + 1; i++){
+        for(int i = 1; i < size; i++){
             mainArray[i-1] = mainArray[i];
         }
         tail--;
+        size = size();
         return returnString;
     }
 
@@ -92,23 +94,22 @@ public class SimpleQueue {
     public boolean remove(String s) {
         for(int i = 0; i < tail; i++){
             if(mainArray[i] == s){
-                for(int j=i+1; j < tail+1; j++) {
+                for(int j=i+1; j < size; j++) {
                     mainArray[j-1] = mainArray[j];
                 }
                 tail--;
+                size = size();
                 return true;
             }
         }
         return false;
     }
-
-
     public int size(){
-        return tail + 1;
+        int size = tail + 1;
+        return size;
     }
-
     public String toString(){
-        size = size();
+        //size = size();
         String mainString = "[";
         if(tail != -1){
             for(int i=0; i<size; i++){
@@ -124,7 +125,4 @@ public class SimpleQueue {
         }
         return mainString + "]";
     }
-
-
-
 }
